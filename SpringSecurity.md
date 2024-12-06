@@ -139,7 +139,71 @@ http
 ![alt text](image.png)
 
 
+```java
+package My.Spring_Study;
 
+import My.Spring_Study.service.CustomUserDetailsService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration // 스프링 구성 클래스 -> 이 클래스에서 정의한 모든 메서드는 Spring Bean으로 등록된다.
+@EnableWebSecurity // SpringSecurity 활성화 어노테이션 -> 사용자 정의 보안 설정
+public class SecurityConfig { //
+
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
+
+    @Bean(name = "customSecurityFilterChain")
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // 모든 http 요청은 securityFilterChain의 보안 필터 체인을 통과한다.
+        // HttpSecurity는 SpringSecurity에서 보안 설정을 관리하는데 사용된다.
+        // 이 매개변수는 HTTP 요청과 응답에 대한 보안 규칙을 구성한다.
+        // 1.CSRF 보호, 세션 정책 설정
+        // 2.요청에 대한 인증 및 권한 설정
+        // 3.기본 로그인/로그아웃 설정
+        // 4.HTTPS, HTTP Basic 인증 등 다양한 보안 정책 적용
+        http
+                .csrf(csrf -> csrf.disable()) // CSRF 비활성화
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/users/loginPage",
+                                "/users/index",
+                                "/users/register",
+                                "users/insert",
+                                "/login").permitAll()
+                        .requestMatchers("/users/profile").authenticated() // 프로필 페이지는 인증 필요
+                        .anyRequest().authenticated()
+                )
+
+                .formLogin(form -> form
+                        .loginPage("/users/loginPage") // 사용자 정의 로그인 페이지
+                        .loginProcessingUrl("/login") // 로그인 요청 경로
+                        .usernameParameter("username") // 로그인 폼의 필드 이름과 매핑
+                        .passwordParameter("password") // 비밀번호 필드 매핑
+                        .defaultSuccessUrl("/users/profile", true) // 로그인 성공 후 이동
+                )
+
+                .logout(logout -> logout
+                        .logoutUrl("/users/logout") // 로그아웃 URL
+                        .logoutSuccessUrl("/users/login") // 로그아웃 성공 후 이동
+                );
+
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+```
 
 
 
