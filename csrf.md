@@ -46,8 +46,6 @@ ___
 2. Ajax 요청을 통해 HTTP 헤더로 CSRF Token 전달 하는 방법 (Ajax 요청의 경우, CSRF Token을 HTTP 헤더에 포함시켜 전송한다.)
 
 ```javascript
-javascript
-코드 복사
 fetch('/transfer', {
   method: 'POST',
   headers: {
@@ -57,7 +55,6 @@ fetch('/transfer', {
   body: JSON.stringify({ to: 'recipient', amount: 100 })
 });
 ```
-
 
 ## CSRF 공격 이해를 위한 시나리오
 
