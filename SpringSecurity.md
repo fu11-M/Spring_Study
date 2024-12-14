@@ -16,6 +16,8 @@ ___
 ### Spring Architecture (Security dependency)
 ![alt text](./Study.img/SpringSecurityArchitecture.png)
 ![alt text](./Study.img/SpringSecurityArchitecture2.png)
+
+___
 Security 의존성이 설정되어 있으면 클라이언트의 요청이 WAS를 통과하여 Spring 컨테이너에 도달하기 전에 Spring Security DelegatingFillterProxy의 FilterChainProxy 필터 체인을 거친다.
 
 ![alt text](./Study.img/FilterChain.png)
@@ -24,7 +26,7 @@ ___
 ### SpringSecurity Logic
 ![alt text](./Study.img/SecurityLogic.png)
 SpringSecurity 로직은 여러개의 필터들이 나열된 형태로 구성되어 있고 각 필터에서 CSRF, 로그인, 로그아웃, 인증, 인가 등 여러 작업을 수행한다.
-
+___
 ![alt text](./Study.img/SecurityFilterCahin.png)
 
 
