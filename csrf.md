@@ -28,7 +28,6 @@ CSRF Token은 클라이언트의 요청이 신뢰할 수 있는 출처에서 왔
 사용자에게 숨겨진 전달 방식:
   CSRF Token은 일반적으로 사용자에게 보이지 않는 방식으로 전달된다. (HTML 폼의 hidden input 필드 또는 HTTP 헤더)
 
-
 ### CSRF Token의 사용 방법
 
 1. HTML 폼의 hidden 필드로 CSRF Token 전달 서버가 CSRF Token을 HTML 폼에 추가 하는 방법
